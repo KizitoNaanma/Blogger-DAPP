@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blogger</title>
+    <!-- Intro settings -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+      #intro {
+        /* Margin to fix overlapping fixed navbar */
+        margin-top: 58px;
+      }
+      @media (max-width: 991px) {
+        #intro {
+          /* Margin to fix overlapping fixed navbar */
+          margin-top: 45px;
+        }
+      }
+    </style>
+  </head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+      <div class="container-fluid">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" target="_blank" href="#">
+          BLOGGER
+        </a>
+        <span class="nav-link border rounded-pill bg-light">
+          <span id="balance">0</span>
+          cUSD
+        </span>
+      </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Jumbotron -->
+    <div id="intro" class="p-5 text-center bg-light">
+      <div class="alert alert-warning sticky-top mt-2" role="alert">
+        <span id="notification">⌛ Loading...</span>
+      </div>
+      <h1 class="mb-3 h2">WELCOME TO BLOGGER</h1>
+      <p class="mb-3">This is a blogging DAPP where you can post articles and research work</p>
+      <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addModal">New Post</a>
+
+    </div>
+    <!-- Jumbotron -->
+  <!--Main Navigation-->
+  <div class="container">
+    <main id="marketplace" class="row"></main>
+
+  </div>
+  <!--Main layout-->
+
+
+      <!--Modal-->
+
+      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addModalLabel">New Post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="newBlogTitle" class="col-form-label">Blog Title</label>
+                  <input type="text" class="form-control" id="newBlogTitle" >
+                </div>
+                <div class="form-group">
+                  <label for="newBlogImage" class="col-form-label">Image URL</label>
+                  <input type="text" class="form-control" id="newBlogImage" >
+                </div>
+                <div class="form-group">
+                  <label for="newBlogAuthor" class="col-form-label">Author</label>
+                  <input type="text" class="form-control" id="newBlogAuthor" >
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Content</label>
+                  <textarea class="form-control" id="newBlogContent"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="newPostBtn" data-dismiss="modal">Post</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+  <!--Footer-->
+  <footer class="bg-light text-lg-start">
+
+
+    <hr class="m-0" />
+
+    <div class="text-center py-4 align-items-center">
+      <p>Follow MDB on social media</p>
+      <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
+        rel="nofollow" target="_blank">
+        <i class="fab fa-youtube"></i>
+      </a>
+    </div>
+
+
+  </footer>
+  <!--Footer-->
+
+  <script
+   src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+   crossorigin="anonymous"
+   ></script>
+   <script src="https://unpkg.com/ethereum-blockies@0.1.1/blockies.min.js"></script>
+   <script src="try2.js">
+   </script>
+   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+ </body>
+</html>
