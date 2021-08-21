@@ -1,50 +1,122 @@
-const posts = [
-  {
-    author: "Tony Stark",
-    title: "Giant BBQ",
-    image: "https://mdbootstrap.com/img/new/standard/nature/184.jpg",
-    content: `Grilled chicken, beef, fish, sausages, bacon,
-      vegetables served with chips.`,
-    owner: "0x32Be343B94f860124dC4fEe278FDCBD38C102D88",
-    like: 3,
-    dislike: 27,
-    index: 0,
-  },
-  {
-    author: "Chris Evans",
-    title: "BBQ Chicken",
-    image: "https://mdbootstrap.com/img/new/standard/nature/023.jpg",
-    content: `French fries and grilled chicken served with gacumbari
-      and avocados with cheese.`,
-    owner: "0x3275B7F400cCdeBeDaf0D8A9a7C8C1aBE2d747Ea",
-    like: 4,
-    dislike: 12,
-    index: 1,
-  },
-  {
-    author: "Thanos",
-    title: "Beef burrito",
-    image: "https://mdbootstrap.com/img/new/standard/nature/024.jpg",
-    content: `Homemade tortilla with your choice of filling, cheese,
-      guacamole salsa with Mexican refried beans and rice.`,
-    owner: "0x2EF48F32eB0AEB90778A2170a0558A941b72BFFb",
-    like: 2,
-    dislike: 35,
-    index: 2,
-  }
-]
+import Web3 from "web3"
+import { newKitFromWeb3 } from "@celo/contractkit"
+import BigNumber from "bignumber.js"
+import bloggerAbi from "../contract/blogger.abi.json"
+import erc20Abi from "../contract/erc20.abi.json"
 
-const getBalance = function () {
-  document.querySelector("#balance").textContent = 21
+const ERC20_DECIMALS = 18
+const BloggerContractAddress = "0xF4D8ab92115F716D11Df36f56De33b9665387d67"
+const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
+
+let kit
+let contract
+let posts = []
+
+const connectCeloWallet = async function () {
+  if (window.celo) {
+    notification("⚠️ Please approve this DApp to use it.")
+    try {
+      await window.celo.enable()
+      notificationOff()
+
+      const web3 = new Web3(window.celo)
+      kit = newKitFromWeb3(web3)
+
+      const accounts = await kit.web3.eth.getAccounts()
+      kit.defaultAccount = accounts[0]
+
+      contract = new kit.web3.eth.Contract(bloggerAbi, BloggerContractAddress)
+
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+  } else {
+    notification("⚠️ Please install the CeloExtensionWallet.")
+  }
 }
 
+async function approve(_amount) {
+  const cUSDContract = new kit.web3.eth.Contract(erc20Abi, cUSDContractAddress)
+
+  const result = await cUSDContract.methods
+    .approve(BloggerContractAddress, _amount)
+    .send({ from: kit.defaultAccount })
+  return result
+}
+
+const getBalance = async function () {
+  const totalBalance = await kit.getTotalBalance(kit.defaultAccount)
+  const cUSDBalance = totalBalance.cUSD.shiftedBy(-ERC20_DECIMALS).toFixed(2)
+  document.querySelector("#balance").textContent = cUSDBalance
+}
+
+
+const getPosts = async function() {
+  const _postCount = await contract.methods.getPostCount().call()
+  const _posts = []
+
+for (let i = 0; i < _postCount; i++) {
+    let _post = new Promise(async (resolve, reject) => {
+      let p = await contract.methods.displayPost(i).call()
+      resolve({
+        index: i,
+        owner: p[0],
+        author: p[1],
+        image: p[2],
+        title: p[3],
+        content: p[4],
+        like: p[6],
+        dislike: p[7]
+      })
+    })
+    _posts.push(_post)
+  }
+  posts = await Promise.all(_posts)
+  renderPosts()
+}
+
+document
+  .querySelector("#newPostBtn")
+  .addEventListener("click", async (e) => {
+    const params = [
+      document.getElementById("newBlogTitle").value,
+      document.getElementById("newBlogImage").value,
+      document.getElementById("newBlogAuthor").value,
+      document.getElementById("newBlogContent").value,
+      // new BigNumber(document.getElementById("newPrice").value)
+      // .shiftedBy(ERC20_DECIMALS)
+      // .toString()
+    ]
+    notification(`⌛ Adding "${params[0]}"...`)
+
+
+  try {
+    const result = await contract.methods
+      .createPost(...params)
+      .send({ from: kit.defaultAccount })
+  } catch (error) {
+    notification(`⚠️ ${error}.`)
+  }
+  notification(`🎉 You successfully added "${params[0]}".`)
+  getPosts()
+  })
+
+window.addEventListener('load', async () => {
+  notification("⌛ Loading...")
+  await connectCeloWallet()
+  await getBalance()
+  await getPosts()
+  notificationOff()
+});
+
+
 function renderPosts() {
-  document.getElementById("marketplace").innerHTML = ""
+  document.getElementById("myblog").innerHTML = ""
   posts.forEach((_post) => {
     const newDiv = document.createElement("div")
     newDiv.className = "col-lg-4 col-md-12 mb-4"
     newDiv.innerHTML = productTemplate(_post)
-    document.getElementById("marketplace").appendChild(newDiv)
+    document.getElementById("myblog").appendChild(newDiv)
   })
 }
 
@@ -61,17 +133,17 @@ function productTemplate(_post) {
     <div class="translate-middle-y position-absolute top-0">
         ${identiconTemplate(_post.owner)}
         </div>
-      <h5 class="card-title">${_post.author}</h5>
+      <h5 class="card-title">${_post.title}</h5>
       <p class="card-text">
-        ${_post.title}
+        ${_post.author}
       </p>
-      <a class="btn btn-primary m-2" data-toggle="modal" data-target="#read">Read</a>
+      <a class="btn btn-primary m-2" data-toggle="modal" data-target="#read-${_post.index}">Read</a>
     </div>
   </div>
 
 
   <!-- Modal -->
-  <div class="modal fade" id="read" tabindex="-1" role="dialog" aria-labelledby="readLabel" aria-hidden="true">
+  <div class="modal fade" id="read-${_post.index}" tabindex="-1" role="dialog" aria-labelledby="readLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -85,7 +157,8 @@ function productTemplate(_post) {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <input type="text" class="form-control" id="donationAmt" placeholder="Amount" style="width: 20%; height: min-content;">&nbsp;cUSD &nbsp;
+          <button type="button" class="btn btn-primary donate">Donate</button>
         </div>
       </div>
     </div>
@@ -126,18 +199,39 @@ window.addEventListener("load", () => {
   renderPosts()
   notificationOff()
 })
-document
-  .querySelector("#newPostBtn")
-  .addEventListener("click", () => {
-    const _post = {
-      owner: "0x2EF48F32eB0AEB90778A2170a0558A941b72BFFb",
-      title: document.getElementById("newBlogTitle").value,
-      author: document.getElementById("newBlogAuthor").value,
-      image: document.getElementById("newBlogImage").value,
-      content: document.getElementById("newBlogContent").value,
-      index: posts.length,
+
+
+// document.querySelector("#myblog").addEventListener("click", (e) => {
+//   if(e.target.className.includes("donate")) {
+//     const index = e.target.id
+//     products[index].sold++
+//     notification(`🎉 You successfully bought "${products[index].name}".`)
+//     renderProducts()
+//   }
+// })
+// document.querySelector("#donationAmt").addEventListener("click", async(e) =>)
+document.querySelector("#myblog").addEventListener("click", async (e) => {
+
+  if (e.target.className.includes("donate")){
+    const index = e.target.id
+    console.log(index);
+
+    amount = new BigNumber(document.getElementById("donationAmt").value).shiftedBy(ERC20_DECIMALS)
+    notification("⌛ Waiting for transaction approval...")
+    try {
+      await approve(amount)
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
     }
-    posts.push(_post)
-    notification(`🎉 You successfully added "${_post.title}".`)
-    renderPosts()
-  })
+    notification(`⌛ Awaiting donation for "${events.eventTitle}"...`)
+    try {
+      const result = await contract.methods
+        .makeDonation(index, amount)
+        .send({ from: kit.defaultAccount })
+      notification(`🎉 You have successfully completed your donation.`)
+      getBalance()
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+}
+})
