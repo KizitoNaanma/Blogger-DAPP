@@ -83,9 +83,6 @@ document
       document.getElementById("newBlogImage").value,
       document.getElementById("newBlogAuthor").value,
       document.getElementById("newBlogContent").value,
-      // new BigNumber(document.getElementById("newPrice").value)
-      // .shiftedBy(ERC20_DECIMALS)
-      // .toString()
     ]
     notification(`⌛ Adding "${params[0]}"...`)
 
@@ -114,7 +111,7 @@ function renderPosts() {
   document.getElementById("myblog").innerHTML = ""
   posts.forEach((_post) => {
     const newDiv = document.createElement("div")
-    newDiv.className = "col-lg-4 col-md-12 mb-4"
+    newDiv.className = "col-lg-4 col-md-12 mb-4 py-3"
     newDiv.innerHTML = productTemplate(_post)
     document.getElementById("myblog").appendChild(newDiv)
   })
@@ -122,6 +119,7 @@ function renderPosts() {
 
 function productTemplate(_post) {
   return `
+
   <div class="card">
     <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
       <img src="${_post.image}" class="img-fluid" />
@@ -130,7 +128,7 @@ function productTemplate(_post) {
       </a>
     </div>
     <div class="card-body">
-    <div class="translate-middle-y position-absolute top-0">
+      <div class="post-category">
         ${identiconTemplate(_post.owner)}
         </div>
       <h5 class="card-title">${_post.title}</h5>
@@ -138,6 +136,9 @@ function productTemplate(_post) {
         ${_post.author}
       </p>
       <a class="btn btn-primary m-2" data-toggle="modal" data-target="#read-${_post.index}">Read</a>
+      <div>
+        <a class="btn btn-primary m-2 like-counter">Like</a><span id="clicks"></span>
+      </div>
     </div>
   </div>
 
@@ -158,13 +159,24 @@ function productTemplate(_post) {
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <input type="text" class="form-control" id="donationAmt" placeholder="Amount" style="width: 20%; height: min-content;">&nbsp;cUSD &nbsp;
-          <button type="button" class="btn btn-primary donate">Donate</button>
+          <button type="button" class="btn btn-primary donate" id=${_post.index}>Donate</button>
         </div>
       </div>
     </div>
   </div>
 `
 }
+
+var clickse = 4;
+
+document.querySelector("#clicks").textContent = clickse;
+
+// $('.like-counter').click(function() {
+//   clicks += 1;
+//   document.getElementById("clicks").innerHTML = clicks;
+//   $('.like-counter').addClass("liked");
+// });
+
 function identiconTemplate(_address) {
   const icon = blockies
     .create({
@@ -214,7 +226,7 @@ document.querySelector("#myblog").addEventListener("click", async (e) => {
 
   if (e.target.className.includes("donate")){
     const index = e.target.id
-    console.log(index);
+    // console.log(index);
 
     amount = new BigNumber(document.getElementById("donationAmt").value).shiftedBy(ERC20_DECIMALS)
     notification("⌛ Waiting for transaction approval...")
@@ -223,7 +235,7 @@ document.querySelector("#myblog").addEventListener("click", async (e) => {
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
-    notification(`⌛ Awaiting donation for "${events.eventTitle}"...`)
+    notification(`⌛ Awaiting donation`)
     try {
       const result = await contract.methods
         .makeDonation(index, amount)

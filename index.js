@@ -2,6 +2,7 @@ let path = require("path");
 let webpack = require("webpack");
 let webpackDevServer = require("webpack-dev-server");
 let webpackConfig = require("./webpack.config");
+var express = require('express');
 
 let webpackDevServerOptions = {
   publicPath: "/",
@@ -15,6 +16,8 @@ webpackDevServer.addDevServerEntrypoints(webpackConfig, webpackDevServerOptions)
 let webpackCompiler = webpack(webpackConfig);
 
 let app = new webpackDevServer(webpackCompiler, webpackDevServerOptions);
+
+app.use(express.static(__dirname + '/public'));
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App listening on ${port}`));
