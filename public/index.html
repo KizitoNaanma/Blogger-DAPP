@@ -69,14 +69,12 @@
               <a class="nav-link" href="#about">About Us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="doctors.html">Doctors</a>
+              <a class="nav-link" href="#writer">Writers</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="blog.html">News</a>
+              <a class="nav-link" href="#myblog">Posts</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
-            </li>
+
           </ul>
 
           <span class="nav-link border rounded-pill bg-light">
@@ -98,11 +96,11 @@
 
     </div>
     <section id="home">
-      <div class="page-hero bg-image overlay-dark" style="background-image: url(assets/img/bg_image_1.jpg);">
+      <div class="page-hero bg-image overlay-dark" style="background-image: url(assets/img/coffee.jpg);">
         <div class="hero-section">
           <div class="container text-center wow zoomIn">
-            <span class="subhead">Let's make your life happier</span>
-            <h1 class="display-4">Healthy Living</h1>
+            <span class="subhead">Let's make your life simpler and more informed</span>
+            <h1 class="display-4">Power of Blogging</h1>
             <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addModal">New Post</a>
             <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addwriterModal">Register as a Writer</a>
 
@@ -116,9 +114,9 @@
     <div class="container">
       <div class="row align-items-center">
         <div class="py-3 wow fadeInUp">
-          <h1 class="text-center mb-3">Welcome to Your Health Center</h1>
-          <p class="text-grey mb-4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Accusantium aperiam earum ipsa eius, inventore nemo labore eaque porro consequatur ex aspernatur. Explicabo, excepturi accusantium! Placeat voluptates esse ut optio facilis!</p>
-        <div style="text-align:center"><a href="about.html" class="btn btn-primary">Learn More</a></div>
+          <h1 class="text-center mb-3">Welcome to Blogger</h1>
+          <p class="text-grey mb-4">"Would you like me to give you a formula for success? It's quite simple, really: Double your rate of failure. You are thinking of failure as the enemy of success. But it isn't at all. You can be discouraged by failure or you can lean from it, so go ahead and make mistakes. Make all you can. Because remember that's where you will find success." Thomas J. Watson</p>
+        <div style="text-align:center"><a href="#about" class="btn btn-primary">Learn More</a></div>
         </div>
 
       </div>
@@ -131,18 +129,18 @@
     <div class="container text-center wow fadeInUp">
       <nav aria-label="Breadcrumb">
         <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item"><a href="#home">Home</a></li>
           <li class="breadcrumb-item active" aria-current="page">Blog</li>
         </ol>
       </nav>
-      <h1 class="font-weight-normal">News</h1>
+      <h1 class="font-weight-normal">Posts</h1>
     </div> <!-- .container -->
   </div> <!-- .banner-section -->
 </div>
     <!-- Jumbotron -->
   <!--Main Navigation-->
   <div class="container">
-    <main id="myblog" class="row"></main>
+    <section id="myblog" class="row"></section>
 
   </div>
   <!--Main layout-->
@@ -199,26 +197,34 @@
             <div class="modal-body">
               <form>
                 <div class="form-group">
-                  <label for="newBlogTitle" class="col-form-label">Blog Title</label>
-                  <input type="text" class="form-control" id="newBlogTitle" >
+                  <label for="writerName" class="col-form-label">Full Name</label>
+                  <input type="text" class="form-control" id="writerName" >
                 </div>
                 <div class="form-group">
-                  <label for="newBlogImage" class="col-form-label">Image URL</label>
-                  <input type="text" class="form-control" id="newBlogImage" >
+                  <label for="writerEmail" class="col-form-label">Email</label>
+                  <input type="text" class="form-control" id="writerEmail" >
                 </div>
                 <div class="form-group">
-                  <label for="newBlogAuthor" class="col-form-label">Author</label>
-                  <input type="text" class="form-control" id="newBlogAuthor" >
+                  <label for="writerPhone" class="col-form-label">Phone Number</label>
+                  <input type="text" class="form-control" id="writerPhone" >
                 </div>
                 <div class="form-group">
-                  <label for="message-text" class="col-form-label">Content</label>
-                  <textarea class="form-control" id="newBlogContent"></textarea>
+                  <label for="message-text" class="col-form-label">Display Picture</label>
+                  <input type="text" class="form-control" id="writerDp" >
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Minimum Fee in cUSD</label>
+                  <input type="text" class="form-control" id="writerFee" >
+                </div>
+                <div class="form-group">
+                  <label for="message-text" class="col-form-label">Stack</label>
+                  <input type="text" class="form-control" id="writerStack" >
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="newPostBtn" data-dismiss="modal">Post</button>
+              <button type="button" class="btn btn-primary" id="newWriterBtn" data-dismiss="modal">Register</button>
             </div>
           </div>
         </div>
@@ -230,7 +236,7 @@
           <div class="container text-center wow fadeInUp">
             <nav aria-label="Breadcrumb">
               <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#home">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">About</li>
               </ol>
             </nav>
@@ -243,15 +249,47 @@
         <div class="container">
           <div class="row justify-content-center">
       <div class="col-lg-8 wow fadeInUp">
-        <h1 class="text-center mb-3">Welcome to Your Health Center</h1>
+        <h1 class="text-center mb-3">Welcome to Blogger</h1>
         <div class="text-lg">
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt neque sit, explicabo vero nulla animi nemo quae cumque, eaque pariatur eum ut maxime! Tenetur aperiam maxime iure explicabo aut consequuntur. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt neque sit, explicabo vero nulla animi nemo quae cumque, eaque pariatur eum ut maxime! Tenetur aperiam maxime iure explicabo aut consequuntur.</p>
-          <p>Expedita iusto sunt beatae esse id nihil voluptates magni, excepturi distinctio impedit illo, incidunt iure facilis atque, inventore reprehenderit quidem aliquid recusandae. Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium quod ad sequi atque accusamus deleniti placeat dignissimos illum nulla voluptatibus vel optio, molestiae dolore velit iste maxime, nobis odio molestias!</p>
         </div>
       </div>
       </div>
       </div>
       </div>
+    </section>
+
+    <section id="writer">
+      <div class="page-banner overlay-dark bg-image" style="background-image: url(../assets/img/bg_image_1.jpg);">
+        <div class="banner-section">
+          <div class="container text-center wow fadeInUp">
+            <nav aria-label="Breadcrumb">
+              <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
+                <li class="breadcrumb-item"><a href="#home">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Writers</li>
+              </ol>
+            </nav>
+            <h1 class="font-weight-normal">Our Writers</h1>
+          </div> <!-- .container -->
+        </div> <!-- .banner-section -->
+      </div>
+
+      <div class="page-section bg-light">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+              <div class="row" id="indwriter">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <section id="ind2" class="row">
+
     </section>
 
   <!--Footer-->

@@ -5,12 +5,13 @@ import bloggerAbi from "../contract/blogger.abi.json"
 import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
-const BloggerContractAddress = "0xF4D8ab92115F716D11Df36f56De33b9665387d67"
+const BloggerContractAddress = "0x86716b6C94F5Fa7E8E4B3044C51e06b0deD5930D"
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 
 let kit
 let contract
 let posts = []
+let writers = []
 
 const connectCeloWallet = async function () {
   if (window.celo) {
@@ -167,9 +168,9 @@ function productTemplate(_post) {
 `
 }
 
-var clickse = 4;
-
-document.querySelector("#clicks").textContent = clickse;
+// var clickse = 4;
+//
+// document.querySelector("#clicks").textContent = clickse;
 
 // $('.like-counter').click(function() {
 //   clicks += 1;
@@ -209,6 +210,7 @@ window.addEventListener("load", () => {
   notification("⌛ Loading...")
   getBalance()
   renderPosts()
+  renderWriters()
   notificationOff()
 })
 
@@ -247,3 +249,84 @@ document.querySelector("#myblog").addEventListener("click", async (e) => {
     }
 }
 })
+
+
+
+const getWriters = async function() {
+  const _numWriters = await contract.methods.getNumWriters().call()
+  const _writers = []
+
+for (let i = 0; i < _numWriters; i++) {
+    let _writer = new Promise(async (resolve, reject) => {
+      let w = await contract.methods.displayWriter(i).call()
+      resolve({
+        index: i,
+        owner: w[0],
+        name: w[1],
+        email: w[2],
+        phoneNumber: w[3],
+        dp: w[4],
+        fee: w[6],
+        intro: w[7]
+      })
+    })
+    _writers.push(_writer)
+  }
+  writers = await Promise.all(_writers)
+  renderWriters()
+}
+
+document
+  .querySelector("#newWriterBtn")
+  .addEventListener("click", async (e) => {
+    const params_ = [
+      document.getElementById("writerName").value,
+      document.getElementById("writerEmail").value,
+      document.getElementById("writerPhone").value,
+      document.getElementById("writerDp").value,
+      document.getElementById("writerFee").value,
+      document.getElementById("writerStack").value,
+    ]
+    notification(`⌛ Adding "${params_[0]}"...`)
+
+
+  try {
+    const result = await contract.methods
+      .registerWriter(...params_)
+      .send({ from: kit.defaultAccount })
+  } catch (error) {
+    notification(`⚠️ ${error}.`)
+  }
+  notification(`🎉 You successfully added "${params_[0]}".`)
+  getWriters()
+  })
+
+
+  function renderWriters() {
+    document.getElementById("ind2").innerHTML = ""
+    writers.forEach((_writer) => {
+      const newDiv = document.createElement("div")
+      newDiv.className = "col-md-6 col-lg-4 py-3 wow zoomIn"
+      newDiv.innerHTML = writerTemplate(_writer)
+      document.getElementById("ind2").appendChild(newDiv)
+    })
+  }
+
+  function writerTemplate(_writer) {
+    return `
+    <h1>fuck</h1>
+    <div class="card-doctor">
+          <div class="header">
+              <img src="${_writer.dp}" alt="">
+                  <div class="meta">
+                    <a href="mailto:${_writer.email}"><span class="mai-call"></span></a>
+                    <a href="#"><span class="mai-logo-whatsapp"></span></a>
+                  </div>
+                </div>
+                <div class="body">
+                  <p class="text-xl mb-0">${_writer.name}</p>
+                  <span class="text-sm text-grey">${_writer.intro}</span>
+                </div>
+        </div>
+    `
+  }
