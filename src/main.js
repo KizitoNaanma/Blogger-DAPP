@@ -104,6 +104,7 @@ window.addEventListener('load', async () => {
   await connectCeloWallet()
   await getBalance()
   await getPosts()
+  await getWriters()
   notificationOff()
 });
 
@@ -137,9 +138,6 @@ function productTemplate(_post) {
         ${_post.author}
       </p>
       <a class="btn btn-primary m-2" data-toggle="modal" data-target="#read-${_post.index}">Read</a>
-      <div>
-        <a class="btn btn-primary m-2 like-counter">Like</a><span id="clicks"></span>
-      </div>
     </div>
   </div>
 
@@ -266,8 +264,8 @@ for (let i = 0; i < _numWriters; i++) {
         email: w[2],
         phoneNumber: w[3],
         dp: w[4],
-        fee: w[6],
-        intro: w[7]
+        fee: w[5],
+        intro: w[6]
       })
     })
     _writers.push(_writer)
@@ -303,30 +301,62 @@ document
 
 
   function renderWriters() {
-    document.getElementById("ind2").innerHTML = ""
+    document.getElementById("indwriter").innerHTML = ""
     writers.forEach((_writer) => {
       const newDiv = document.createElement("div")
       newDiv.className = "col-md-6 col-lg-4 py-3 wow zoomIn"
       newDiv.innerHTML = writerTemplate(_writer)
-      document.getElementById("ind2").appendChild(newDiv)
+      document.getElementById("indwriter").appendChild(newDiv)
     })
   }
 
   function writerTemplate(_writer) {
     return `
-    <h1>fuck</h1>
     <div class="card-doctor">
           <div class="header">
               <img src="${_writer.dp}" alt="">
                   <div class="meta">
-                    <a href="mailto:${_writer.email}"><span class="mai-call"></span></a>
-                    <a href="#"><span class="mai-logo-whatsapp"></span></a>
+                    <a href="mailto:${_writer.email}"><span class="mai-mail"></span></a>
+                    <a href="https://wa.me/${_writer.phoneNumber}"><span class="mai-logo-whatsapp"></span></a>
                   </div>
                 </div>
                 <div class="body">
+                <div class="post-category">
+                  ${identiconTemplate(_writer.owner)}
+                  </div>
                   <p class="text-xl mb-0">${_writer.name}</p>
-                  <span class="text-sm text-grey">${_writer.intro}</span>
+                  <span class="text-sm text-grey">Stack: ${_writer.intro}</span><br>
+                  <span class="text-sm text-grey"> Fee: ${_writer.fee} cUSD
+                  <a class="btn btn-sm btn-outline-dark text-sm text-grey hireBtn" style="float: right" id=${_writer.index}>Hire</a></span>
                 </div>
         </div>
     `
   }
+
+
+  document.querySelector("#writer").addEventListener("click", async (e) => {
+  if (e.target.className.includes("hireBtn")) {
+    const index = e.target.id
+    notification("⌛ Waiting for payment approval...")
+    try {
+      await approve(writers[index].fee)
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+    notification(`⌛ Awaiting payment to hire "${writers[index].name}"...`)
+    try {
+      const result = await contract.methods
+        .makePayment(index)
+        .send({ from: kit.defaultAccount })
+      notification(`🎉 You successfully hired "${writers[index].name}".`)
+      getBalance()
+    } catch (error) {
+      notification(`⚠️ ${error}.`)
+    }
+  }
+})
+
+
+$(document).ready(function() {
+    $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+});
