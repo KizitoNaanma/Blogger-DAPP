@@ -17,7 +17,7 @@ let webpackCompiler = webpack(webpackConfig);
 
 let app = new webpackDevServer(webpackCompiler, webpackDevServerOptions);
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')))
 
 let port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App listening on ${port}`));
