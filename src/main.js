@@ -51,7 +51,7 @@ const getBalance = async function () {
   document.querySelector("#balance").textContent = cUSDBalance
 }
 
-
+// Get and Display Posts
 const getPosts = async function() {
   const _postCount = await contract.methods.getPostCount().call()
   const _posts = []
@@ -76,6 +76,7 @@ for (let i = 0; i < _postCount; i++) {
   renderPosts()
 }
 
+// Create Post
 document
   .querySelector("#newPostBtn")
   .addEventListener("click", async (e) => {
@@ -108,7 +109,7 @@ window.addEventListener('load', async () => {
   notificationOff()
 });
 
-
+// Display Posts
 function renderPosts() {
   document.getElementById("myblog").innerHTML = ""
   posts.forEach((_post) => {
@@ -213,6 +214,7 @@ window.addEventListener("load", () => {
 })
 
 
+//Make Donation
 
 // document.querySelector("#donationAmt").addEventListener("click", async(e) =>)
 document.querySelector("#myblog").addEventListener("click", async (e) => {
@@ -242,8 +244,7 @@ document.querySelector("#myblog").addEventListener("click", async (e) => {
 }
 })
 
-
-
+// Display Writers
 const getWriters = async function() {
   const _numWriters = await contract.methods.getNumWriters().call()
   const _writers = []
@@ -268,6 +269,7 @@ for (let i = 0; i < _numWriters; i++) {
   renderWriters()
 }
 
+// Register Writers
 document
   .querySelector("#newWriterBtn")
   .addEventListener("click", async (e) => {
@@ -293,7 +295,7 @@ document
   getWriters()
   })
 
-
+  // Writer Template
   function renderWriters() {
     document.getElementById("indwriter").innerHTML = ""
     writers.forEach((_writer) => {
@@ -327,7 +329,7 @@ document
     `
   }
 
-
+  // Hire Writer
   document.querySelector("#writer").addEventListener("click", async (e) => {
   if (e.target.className.includes("hireBtn")) {
     const index = e.target.id
@@ -350,7 +352,7 @@ document
   }
 })
 
-
+// tooltip
 $(document).ready(function() {
     $("body").tooltip({ selector: '[data-toggle=tooltip]' });
 });
