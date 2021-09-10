@@ -5,7 +5,7 @@ import bloggerAbi from "../contract/blogger.abi.json"
 import erc20Abi from "../contract/erc20.abi.json"
 
 const ERC20_DECIMALS = 18
-const BloggerContractAddress = "0x86716b6C94F5Fa7E8E4B3044C51e06b0deD5930D"
+const BloggerContractAddress = "0xebb98e3e81d576b740E4797A0e1e38b1fE3316a1"
 const cUSDContractAddress = "0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1"
 
 let kit
@@ -80,9 +80,9 @@ document
   .querySelector("#newPostBtn")
   .addEventListener("click", async (e) => {
     const params = [
-      document.getElementById("newBlogTitle").value,
-      document.getElementById("newBlogImage").value,
       document.getElementById("newBlogAuthor").value,
+      document.getElementById("newBlogImage").value,
+      document.getElementById("newBlogTitle").value,
       document.getElementById("newBlogContent").value,
     ]
     notification(`⌛ Adding "${params[0]}"...`)
@@ -157,7 +157,7 @@ function productTemplate(_post) {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <input type="text" class="form-control" id="donationAmt" placeholder="Amount" style="width: 20%; height: min-content;">&nbsp;cUSD &nbsp;
+          <input name="donationAmt" type="text" class="form-control" id="donationAmt" placeholder="Amount" style="width: 20%; height: min-content;">&nbsp;cUSD &nbsp;
           <button type="button" class="btn btn-primary donate" id=${_post.index}>Donate</button>
         </div>
       </div>
@@ -213,22 +213,16 @@ window.addEventListener("load", () => {
 })
 
 
-// document.querySelector("#myblog").addEventListener("click", (e) => {
-//   if(e.target.className.includes("donate")) {
-//     const index = e.target.id
-//     products[index].sold++
-//     notification(`🎉 You successfully bought "${products[index].name}".`)
-//     renderProducts()
-//   }
-// })
+
 // document.querySelector("#donationAmt").addEventListener("click", async(e) =>)
 document.querySelector("#myblog").addEventListener("click", async (e) => {
 
   if (e.target.className.includes("donate")){
     const index = e.target.id
     // console.log(index);
-
-    amount = new BigNumber(document.getElementById("donationAmt").value).shiftedBy(ERC20_DECIMALS)
+    // var amount = document.getElementById("donationAmt").value
+    let amount = new BigNumber(document.getElementById("donationAmt").value).shiftedBy(ERC20_DECIMALS)
+    // console.log(amount)
     notification("⌛ Waiting for transaction approval...")
     try {
       await approve(amount)

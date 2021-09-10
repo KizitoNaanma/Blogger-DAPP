@@ -1,49 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Blogger</title>
-    <!-- Intro settings -->
-    <link rel="preconnect" href="https://fonts.gstatic.com"/>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="css/maicons.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="vendor/owl-carousel/css/owl.carousel.css">
-    <link rel="stylesheet" href="vendor/animate/animate.css">
-    <link rel="stylesheet" href="css/theme.css">
-    <style>
+  <title>Blogger</title>
+  <!-- Intro settings -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <style>
+    #intro {
+      /* Margin to fix overlapping fixed navbar */
+      margin-top: 20px;
+    }
+
+    @media (max-width: 991px) {
       #intro {
         /* Margin to fix overlapping fixed navbar */
         margin-top: 20px;
       }
-      @media (max-width: 991px) {
-        #intro {
-          /* Margin to fix overlapping fixed navbar */
-          margin-top: 20px;
-        }
+    }
+
+    .modal-header {
+      padding: 2px 16px;
+      background-color: rgb(122, 216, 166);
+      color: white;
+    }
+
+    .page-hero {
+      position: relative;
+      height: 550px;
+      z-index: 10;
+    }
+
+    .page-hero.overlay-dark::before,
+    .page-banner.overlay-dark::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(52, 53, 49, 0.7);
+      z-index: 1;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background-color: #00D9A5;
+      border-color: transparent;
+    }
+
+    .bg-image {
+      position: relative;
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    .bg-image-overlay-dark {
+      position: relative;
+    }
+
+    .bg-image-overlay-dark::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.6;
+      background-color: #343531;
+    }
+
+    .bg-image>* {
+      position: relative;
+      z-index: 10;
+    }
+
+    .hero-section,
+    .banner-section {
+      position: relative;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-align: center;
+      align-items: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      height: 100%;
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    .hero-section .subhead {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .hero-section h1 {
+      margin-bottom: 32px;
+    }
+
+    @-webkit-keyframes fadeInUp {
+      from {
+        opacity: 0;
+        -webkit-transform: translate3d(0, 100%, 0);
+        transform: translate3d(0, 100%, 0);
       }
-      .modal-header {
-        padding: 2px 16px;
-        background-color: rgb(122,216,166);
-        color: white;
+
+      to {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
       }
-    </style>
-  </head>
+    }
+
+    .hero-section .subhead {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+    }
+
+    .page-section {
+      position: relative;
+      padding-top: 80px;
+      padding-bottom: 80px;
+      overflow: hidden;
+    }
+
+    .bg-light {
+      background-color: #F5F9F6 !important;
+    }
+
+    a {
+      color: #07be94;
+      text-decoration: none;
+      background-color: transparent;
+    }
+
+    a:hover {
+      color: #03a882;
+      text-decoration: underline;
+    }
+
+    .text-primary {
+      color: #00D9A5 !important;
+    }
+
+    .text-sm {
+      font-size: 14px !important;
+    }
+
+    .text-grey {
+      color: #6E807A !important;
+    }
+
+    .card-doctor .text-xl {
+      font-weight: 500;
+    }
+
+    .page-banner {
+      position: relative;
+      height: 300px;
+      z-index: 10;
+    }
+
+    .breadcrumb {
+      background-color: #f8f9fa;
+    }
+
+    .breadcrumb-dark .breadcrumb-item a {
+      color: #00D9A5;
+    }
+
+    .breadcrumb-dark .breadcrumb-item a:hover {
+      color: #07be94;
+      text-decoration: none;
+    }
+
+    .breadcrumb-dark .breadcrumb-item+.breadcrumb-item::before {
+      display: inline-block;
+      padding-right: 0.5rem;
+      color: rgba(255, 255, 255, 0.8);
+      content: "/";
+    }
+
+    .breadcrumb-dark .breadcrumb-item.active {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .text-lg {
+      font-size: 18px !important;
+    }
+
+    .card-doctor {
+      display: block;
+      margin: 15px auto;
+      width: 100%;
+      /*        max-width: 240px;
+*/
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(154, 159, 151, 0.2);
+      overflow: hidden;
+    }
+
+    .card-doctor .header {
+      position: relative;
+      width: 100%;
+      height: 230px;
+      overflow: hidden;
+    }
+
+    .card-doctor .header .meta a:hover {
+      text-decoration: none;
+      background-color: #6E807A;
+      color: #fff;
+    }
+
+    .card-doctor .header img {
+      width: 100%;
+    }
+
+    .card-doctor .body {
+      padding: 15px 20px;
+    }
+
+    .card-doctor .text-xl {
+      font-weight: 500;
+    }
+
+    .card-doctor .header {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      overflow: hidden;
+    }
+
+    .card-doctor .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(52, 53, 49, 0.36);
+      opacity: 0;
+      transition: opacity .2s linear;
+    }
+
+    .card-doctor:hover .header::before {
+      opacity: 1;
+    }
+
+    .card-doctor .header .meta {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      width: 100px;
+      visibility: hidden;
+      opacity: 0;
+      transition: all .2s ease;
+    }
+
+    .card-doctor:hover .header .meta {
+      bottom: 15px;
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .card-doctor .header .meta a {
+      display: inline-block;
+      margin: 3px;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      border-radius: 50%;
+      text-align: center;
+      background-color: #fff;
+      color: #6E807A;
+      box-shadow: 0 4px 8px rgba(154, 159, 151, 0.6);
+    }
+
+    [class^="mai-"],
+    [class*=" mai-"] {
+      /* use !important to prevent issues with browser extensions that change fonts */
+      font-family: 'maicons' !important;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+
+      /* Better Font Rendering =========== */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .mai-mail:before {
+      content: "\ea79";
+    }
+
+    .mai-logo-whatsapp:before {
+      content: "\ec5a";
+    }
+
+    @font-face {
+      font-family: 'maicons';
+      src: url('fonts/maicons.eot?c9nlkl');
+      src: url('fonts/maicons.eot?c9nlkl#iefix') format('embedded-opentype'),
+        url('fonts/maicons.ttf?c9nlkl') format('truetype'),
+        url('fonts/maicons.woff?c9nlkl') format('woff'),
+        url('fonts/maicons.svg?c9nlkl#maicons') format('svg');
+      font-weight: normal;
+      font-style: normal;
+      font-display: block;
+    }
+  </style>
+</head>
+
 <body>
-    <!-- Navbar -->
-    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+  <!-- Navbar -->
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
       <div class="container-fluid"> -->
-        <!-- Navbar brand -->
-        <!-- <a class="navbar-brand" target="_blank" href="#">
+  <!-- Navbar brand -->
+  <!-- <a class="navbar-brand" target="_blank" href="#">
           BLOGGER
         </a>
         <span class="nav-link border rounded-pill bg-light">
@@ -52,9 +340,9 @@
         </span>
       </div>
     </nav> -->
-    <!-- Navbar -->
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
       <div class="container">
         <a class="navbar-brand" href="#"><span class="text-primary">Blogger</span></a>
 
@@ -86,60 +374,62 @@
         </div> <!-- .navbar-collapse -->
       </div> <!-- .container -->
     </nav>
-    </header>
-    <!-- Jumbotron -->
-    <div id="intro" class="p-5 text-center bg-light">
-      <div class="alert alert-warning sticky-top mt-2" role="alert">
-        <span id="notification">⌛ Loading...</span>
-      </div>
-      <!-- <h1 class="mb-3 h2">WELCOME TO BLOGGER</h1>
+  </header>
+  <!-- Jumbotron -->
+  <div id="intro" class="p-5 text-center bg-light">
+    <div class="alert alert-warning sticky-top mt-2" role="alert">
+      <span id="notification">⌛ Loading...</span>
+    </div>
+    <!-- <h1 class="mb-3 h2">WELCOME TO BLOGGER</h1>
       <p class="mb-3">This is a blogging DAPP where you can post articles and research work</p>
       <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addModal">New Post</a> -->
 
+
+  </div>
+  <section id="home">
+    <div class="page-hero bg-image overlay-dark" style="background-image: url(assets/img/coffee.jpg);">
+      <div class="hero-section">
+        <div class="container text-center wow zoomIn">
+          <span class="subhead">Let's make your life simpler and more informed</span>
+          <h1 class="display-4">Power of Blogging</h1>
+          <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addModal">New Post</a>
+          <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addwriterModal">Register as a Writer</a>
+
+        </div>
+      </div>
     </div>
-    <section id="home">
-      <div class="page-hero bg-image overlay-dark" style="background-image: url(assets/img/coffee.jpg);">
-        <div class="hero-section">
-          <div class="container text-center wow zoomIn">
-            <span class="subhead">Let's make your life simpler and more informed</span>
-            <h1 class="display-4">Power of Blogging</h1>
-            <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addModal">New Post</a>
-            <a class="btn btn-primary m-2" data-toggle="modal" data-target="#addwriterModal">Register as a Writer</a>
+
+    <!-- .page-section -->
+    <div class="bg-light">
+      <div class="page-section pb-0">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="py-3 wow fadeInUp">
+              <h1 class="text-center mb-3">Welcome to Blogger</h1>
+              <p class="text-grey mb-4">"Would you like me to give you a formula for success? It's quite simple, really: Double your rate of failure. You are thinking of failure as the enemy of success. But it isn't at all. You can be discouraged by
+                failure or you can lean from it, so go ahead and make mistakes. Make all you can. Because remember that's where you will find success." Thomas J. Watson</p>
+              <div style="text-align:center"><a href="#about" class="btn btn-primary">Learn More</a></div>
+            </div>
 
           </div>
         </div>
-      </div>
-      <div class="bg-light">
-<!-- .page-section -->
-
-  <div class="page-section pb-0">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="py-3 wow fadeInUp">
-          <h1 class="text-center mb-3">Welcome to Blogger</h1>
-          <p class="text-grey mb-4">"Would you like me to give you a formula for success? It's quite simple, really: Double your rate of failure. You are thinking of failure as the enemy of success. But it isn't at all. You can be discouraged by failure or you can lean from it, so go ahead and make mistakes. Make all you can. Because remember that's where you will find success." Thomas J. Watson</p>
-        <div style="text-align:center"><a href="#about" class="btn btn-primary">Learn More</a></div>
-        </div>
-
-      </div>
+      </div> <!-- .bg-light -->
     </div>
-  </div> <!-- .bg-light -->
-</div>
-    </section>
-    <div class="page-banner overlay-dark bg-image" style="background-image: url(../assets/img/bg_1.jpg);">
-  <div class="banner-section">
-    <div class="container text-center wow fadeInUp">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
-          <li class="breadcrumb-item"><a href="#home">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Blog</li>
-        </ol>
-      </nav>
-      <h1 class="font-weight-normal">Posts</h1>
-    </div> <!-- .container -->
-  </div> <!-- .banner-section -->
-</div>
-    <!-- Jumbotron -->
+  </section>
+  <div class="page-banner overlay-dark bg-image" style="background-image: url(assets/img/bg_1.jpg);">
+    <div class="banner-section">
+      <div class="container text-center wow fadeInUp">
+        <nav aria-label="Breadcrumb">
+          <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
+            <li class="breadcrumb-item"><a href="#home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Blog</li>
+          </ol>
+        </nav>
+        <h1 class="font-weight-normal">Posts</h1>
+      </div> <!-- .container -->
+    </div> <!-- .banner-section -->
+  </div>
+  <!-- Jumbotron -->
   <!--Main Navigation-->
   <div class="container">
     <section id="myblog" class="row"></section>
@@ -148,148 +438,149 @@
   <!--Main layout-->
 
 
-      <!--Modal-->
+  <!--Modal-->
 
-      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addModalLabel">New Post</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">New Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="newBlogTitle" class="col-form-label">Blog Title</label>
+              <input type="text" class="form-control" id="newBlogTitle">
             </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="newBlogTitle" class="col-form-label">Blog Title</label>
-                  <input type="text" class="form-control" id="newBlogTitle" >
-                </div>
-                <div class="form-group">
-                  <label for="newBlogImage" class="col-form-label">Image URL</label>
-                  <input type="text" class="form-control" id="newBlogImage" >
-                </div>
-                <div class="form-group">
-                  <label for="newBlogAuthor" class="col-form-label">Author</label>
-                  <input type="text" class="form-control" id="newBlogAuthor" >
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Content</label>
-                  <textarea class="form-control" id="newBlogContent"></textarea>
-                </div>
-              </form>
+            <div class="form-group">
+              <label for="newBlogImage" class="col-form-label">Image URL</label>
+              <input type="text" class="form-control" id="newBlogImage">
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="newPostBtn" data-dismiss="modal">Post</button>
+            <div class="form-group">
+              <label for="newBlogAuthor" class="col-form-label">Author</label>
+              <input type="text" class="form-control" id="newBlogAuthor">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Content</label>
+              <textarea class="form-control" id="newBlogContent"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="newPostBtn" data-dismiss="modal">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addwriterModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addModalLabel">Writer</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="writerName" class="col-form-label">Full Name</label>
+              <input type="text" class="form-control" id="writerName">
+            </div>
+            <div class="form-group">
+              <label for="writerEmail" class="col-form-label">Email</label>
+              <input type="text" class="form-control" id="writerEmail">
+            </div>
+            <div class="form-group">
+              <label for="writerPhone" class="col-form-label">Phone Number</label>
+              <input type="text" class="form-control" id="writerPhone">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Display Picture</label>
+              <input type="text" class="form-control" id="writerDp">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Fee in cUSD</label>
+              <input type="text" class="form-control" id="writerFee">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Stack <span data-toggle="tooltip" data-placement="right" title="Writing genre eg. Fiction, Essay">&#9432</span></label>
+              <input type="text" class="form-control" id="writerStack">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="newWriterBtn" data-dismiss="modal">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="about">
+    <div class="page-banner overlay-dark bg-image" style="background-image: url(assets/img/bg_2.jpg);">
+      <div class="banner-section">
+        <div class="container text-center wow fadeInUp">
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
+              <li class="breadcrumb-item"><a href="#home">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">About</li>
+            </ol>
+          </nav>
+          <h1 class="font-weight-normal">About Us</h1>
+        </div> <!-- .container -->
+      </div> <!-- .banner-section -->
+    </div>
+
+    <div class="page-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 wow fadeInUp">
+            <h1 class="text-center mb-3">Welcome to Blogger</h1>
+            <div class="text-lg">
+              <p>This is a blogging site on Celo blockchain where you get to post about lifestyle, books, education etc. Anything you feel like writing about and if a reader finds your content valuable they can tip you some tokens. You can also
+                register as a writer where you can get hired and paid in cUSD for the service you rendered.</p>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="modal fade" id="addwriterModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addModalLabel">Writer</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="writerName" class="col-form-label">Full Name</label>
-                  <input type="text" class="form-control" id="writerName" >
-                </div>
-                <div class="form-group">
-                  <label for="writerEmail" class="col-form-label">Email</label>
-                  <input type="text" class="form-control" id="writerEmail" >
-                </div>
-                <div class="form-group">
-                  <label for="writerPhone" class="col-form-label">Phone Number</label>
-                  <input type="text" class="form-control" id="writerPhone" >
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Display Picture</label>
-                  <input type="text" class="form-control" id="writerDp" >
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Fee in cUSD</label>
-                  <input type="text" class="form-control" id="writerFee" >
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label">Stack <span data-toggle="tooltip" data-placement="right" title="Writing genre eg. Fiction, Essay">&#9432</span></label>
-                  <input type="text" class="form-control" id="writerStack" >
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="newWriterBtn" data-dismiss="modal">Register</button>
+  <section id="writer">
+    <div class="page-banner overlay-dark bg-image" style="background-image: url(assets/img/bg_3.jpg);">
+      <div class="banner-section">
+        <div class="container text-center wow fadeInUp">
+          <nav aria-label="Breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
+              <li class="breadcrumb-item"><a href="#home">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Writers</li>
+            </ol>
+          </nav>
+          <h1 class="font-weight-normal">Our Writers</h1>
+        </div> <!-- .container -->
+      </div> <!-- .banner-section -->
+    </div>
+
+    <div class="page-section bg-light">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10">
+
+            <div class="row" id="indwriter">
+
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <section id="about">
-        <div class="page-banner overlay-dark bg-image" style="background-image: url(../assets/img/bg_2.jpg);">
-        <div class="banner-section">
-          <div class="container text-center wow fadeInUp">
-            <nav aria-label="Breadcrumb">
-              <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
-                <li class="breadcrumb-item"><a href="#home">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">About</li>
-              </ol>
-            </nav>
-            <h1 class="font-weight-normal">About Us</h1>
-          </div> <!-- .container -->
-        </div> <!-- .banner-section -->
-      </div>
-
-      <div class="page-section">
-        <div class="container">
-          <div class="row justify-content-center">
-      <div class="col-lg-8 wow fadeInUp">
-        <h1 class="text-center mb-3">Welcome to Blogger</h1>
-        <div class="text-lg">
-          <p>This is a blogging site on Celo blockchain where you get to post about lifestyle, books, education etc. Anything you feel like writing about and if a reader finds your content valuable they can tip you some tokens. You can also register as a writer where you can get hired and paid in cUSD for the service you rendered.</p>
-        </div>
-      </div>
-      </div>
-      </div>
-      </div>
-    </section>
-
-    <section id="writer">
-      <div class="page-banner overlay-dark bg-image" style="background-image: url(../assets/img/bg_3.jpg);">
-        <div class="banner-section">
-          <div class="container text-center wow fadeInUp">
-            <nav aria-label="Breadcrumb">
-              <ol class="breadcrumb breadcrumb-dark bg-transparent justify-content-center py-0 mb-2">
-                <li class="breadcrumb-item"><a href="#home">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Writers</li>
-              </ol>
-            </nav>
-            <h1 class="font-weight-normal">Our Writers</h1>
-          </div> <!-- .container -->
-        </div> <!-- .banner-section -->
-      </div>
-
-      <div class="page-section bg-light">
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-10">
-
-              <div class="row" id="indwriter">
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
+  </section>
 
   <!--Footer-->
   <footer class="bg-light text-lg-start">
@@ -298,11 +589,8 @@
     <hr class="m-0" />
 
     <div class="text-center py-4 align-items-center">
-      <p>Follow MDB on social media</p>
-      <a href="https://www.youtube.com/channel/UC5CF7mLQZhvx8O5GODZAhdA" class="btn btn-primary m-1" role="button"
-        rel="nofollow" target="_blank">
-        <i class="fab fa-youtube"></i>
-      </a>
+      <p>Copyright</p>
+
     </div>
 
 
@@ -313,19 +601,13 @@
   <script src="assets/vendor/owl-carousel/js/owl.carousel.min.js"></script>
   <script src="assets/vendor/wow/wow.min.js"></script>
   <script src="assets/js/theme.js"></script>
-  <script
-   src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-   integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
-   crossorigin="anonymous"
-   ></script>
-   <script src="https://unpkg.com/ethereum-blockies@0.1.1/blockies.min.js"></script>
-   <script src="try2.js">
-   </script>
-   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-    integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-    integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/ethereum-blockies@0.1.1/blockies.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
- <script type="text/javascript" src="main.js"></script></body>
+  <script type="text/javascript" src="main.js"></script>
+</body>
+
 </html>
