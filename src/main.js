@@ -90,14 +90,14 @@ document
 
 
   try {
-    const result = await contract.methods
+    await contract.methods
       .createPost(...params)
       .send({ from: kit.defaultAccount })
+      notification(`🎉 You successfully added "${params[0]}".`)
+      getPosts()
   } catch (error) {
     notification(`⚠️ ${error}.`)
   }
-  notification(`🎉 You successfully added "${params[0]}".`)
-  getPosts()
   })
 
 window.addEventListener('load', async () => {
@@ -221,27 +221,24 @@ document.querySelector("#myblog").addEventListener("click", async (e) => {
 
   if (e.target.className.includes("donate")){
     const index = e.target.id
-    // console.log(index);
-    // var amount = document.getElementById("donationAmt").value
     let amount = new BigNumber(document.getElementById("donationAmt").value).shiftedBy(ERC20_DECIMALS)
-    // console.log(amount)
     notification("⌛ Waiting for transaction approval...")
     try {
       await approve(amount)
+      notification(`⌛ Awaiting donation`)
+      try {
+        const result = await contract.methods
+          .makeDonation(index, amount)
+          .send({ from: kit.defaultAccount })
+        notification(`🎉 You have successfully completed your donation.`)
+        getBalance()
+      } catch (error) {
+        notification(`⚠️ ${error}.`)
+      }
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
-    notification(`⌛ Awaiting donation`)
-    try {
-      const result = await contract.methods
-        .makeDonation(index, amount)
-        .send({ from: kit.defaultAccount })
-      notification(`🎉 You have successfully completed your donation.`)
-      getBalance()
-    } catch (error) {
-      notification(`⚠️ ${error}.`)
-    }
-}
+  }
 })
 
 // Display Writers
@@ -285,7 +282,7 @@ document
 
 
   try {
-    const result = await contract.methods
+    await contract.methods
       .registerWriter(...params_)
       .send({ from: kit.defaultAccount })
   } catch (error) {
@@ -336,19 +333,20 @@ document
     notification("⌛ Waiting for payment approval...")
     try {
       await approve(writers[index].fee)
+      notification(`⌛ Awaiting payment to hire "${writers[index].name}"...`)
+      try {
+        await contract.methods
+          .makePayment(index)
+          .send({ from: kit.defaultAccount })
+        notification(`🎉 You successfully hired "${writers[index].name}".`)
+        getBalance()
+      } catch (error) {
+        notification(`⚠️ ${error}.`)
+      }
     } catch (error) {
       notification(`⚠️ ${error}.`)
     }
-    notification(`⌛ Awaiting payment to hire "${writers[index].name}"...`)
-    try {
-      const result = await contract.methods
-        .makePayment(index)
-        .send({ from: kit.defaultAccount })
-      notification(`🎉 You successfully hired "${writers[index].name}".`)
-      getBalance()
-    } catch (error) {
-      notification(`⚠️ ${error}.`)
-    }
+    
   }
 })
 
