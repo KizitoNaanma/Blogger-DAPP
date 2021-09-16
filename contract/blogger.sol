@@ -108,6 +108,7 @@ contract Blogger {
     }
 
     function makeDonation(uint _index, uint _donation) public payable  {
+        require(msg.sender != posts[_index].owner, "You cant make donation to self");
         require(
           IERC20Token(cUsdTokenAddress).transferFrom(
             msg.sender,
